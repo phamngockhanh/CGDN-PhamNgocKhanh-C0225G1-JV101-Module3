@@ -14,3 +14,5 @@ age int,
 country varchar(30)
 );
 
+insert into teacher(id,name,age,country) values (1,'Pham Ngoc Khanh',23,'VietNam');
+update teacher set name = 'Monkey D Luffy' where id=1;
