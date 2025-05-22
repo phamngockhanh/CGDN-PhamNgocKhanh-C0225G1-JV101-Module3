@@ -115,3 +115,16 @@ INSERT INTO Mark (SubId, StudentId, Mark, ExamTimes) VALUES
 	select StudentName as TenHS, SubName as Ho, Mark as Diem
     from Student s join Mark m on s.StudentId = m.StudentId join Subject s1 on m.SubId = s1.SubId
     order by m.Mark desc, s.StudentName asc;
+    
+-- Hiển thị tất cả các thông tin môn học (bảng subject) có credit lớn nhất.
+   select * from `subject` sj where sj.Credit = (select  max(sj.credit) from `Subject` sj);
+    
+-- Hiển thị các thông tin môn học có điểm thi lớn nhất.
+	select * 
+    from `subject` sj join mark m on sj.SubId = m.SubId
+    where m.Mark = (select max(m.mark) from mark m);
+
+-- Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần.
+select s.*, avg(m.mark) from student s join mark m on s.StudentId = m.StudentId
+group by s.StudentId
+order by avg(m.mark) desc;

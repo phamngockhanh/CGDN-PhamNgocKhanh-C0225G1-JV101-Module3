@@ -79,7 +79,8 @@ update student set name = 'a1' where id = 11;
 insert into instructor(name, birthday, salary) values
 ('Le Van An', '1980-05-10', 1200.50),
 ('Tran Thi Binh', '1975-08-22', 1350.00);
-
+insert into instructor(name, birthday, salary) values
+('Le Van Ahhn', '1980-05-10', 1200.50);
 -- 6. Gán giảng viên cho lớp học
 insert into instructor_class(instructor_id, class_id, start_time, end_time_time) values
 (1, 1, '2025-01-01', '2025-06-01'),
@@ -129,3 +130,7 @@ having point > 5 && count(name)>=2;
 -- Lấy ra danh sách học viên của lớp c1121g1 và sắp xếp tên học viên theo alphabet.
 select * from student
 order by student.name desc;
+
+select i.name 
+from instructor i left join instructor_class ic on i.id = ic.instructor_id
+where ic.instructor_id is null
