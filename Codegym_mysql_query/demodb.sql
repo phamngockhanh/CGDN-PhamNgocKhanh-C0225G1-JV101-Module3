@@ -166,4 +166,4 @@ END //
 
 DELIMITER ;
 
-call delete_product_by_id(1);
+call delete_product_by_id(2);
