@@ -1,0 +1,10 @@
+h1{
+    border-bottom: 1px solid gray;
+}
+p{
+    text-indent: 2em;
+}
+a{
+    color: #0707c7;
+    text-decoration: none;
+}
