@@ -1,0 +1,11 @@
+blockquote{
+    border-left : 4px solid #5ebbff;
+    padding-left: 16px;
+}
+
+.btn{
+    border: 2px solid #5ebbff;
+    padding: 8px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+}
