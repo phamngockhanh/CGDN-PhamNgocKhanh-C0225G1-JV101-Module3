@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.split-container {
+    display: flex;
+    height: 100vh;
+}
+
+.image-side {
+    flex: 1;
+    background-image: url("https://mia.vn/media/uploads/blog-du-lich/la-mo-coffee-3-1714076099.jpeg");
+    background-size: cover;
+    background-position: center;
+}
+
+.form-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa; /* màu nền nhẹ cho form */
+    padding: 40px;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
