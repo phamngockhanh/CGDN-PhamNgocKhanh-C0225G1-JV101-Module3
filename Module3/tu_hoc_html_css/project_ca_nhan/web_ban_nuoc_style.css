@@ -2,11 +2,13 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
+body.modal-open {
+    overflow-y: auto !important;  /* Cho phép scrollbar luôn hiện */
+    padding-right: 0 !important;  /* Bỏ padding phải do bootstrap thêm */
+}
+
 .header-section {
-    background-image: url('https://images.squarespace-cdn.com/content/v1/53883795e4b016c956b8d243/1597218671764-YKLJLT6Z9SL71XR61699/chup-anh-mon-an-MAKI-11.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url('done.jpg') center / cover no-repeat;
     height: 100vh;
     width: 100%;
 }
@@ -42,7 +44,10 @@ html, body {
     text-decoration: underline;
 }
 
-.scrollable-dropdown {
-    max-height: 200px;
-    overflow-y: auto;
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
+
+

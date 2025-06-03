@@ -343,8 +343,9 @@ order by month(hd.ngay_ket_thuc) asc;
 -- 10. Hiển thị thông tin tương ứng với từng hợp đồng thì đã sử dụng bao nhiêu dịch vụ đi kèm. 
 -- Kết quả hiển thị bao gồm ma_hop_dong, ngay_lam_hop_dong, ngay_ket_thuc, tien_dat_coc,
 -- so_luong_dich_vu_di_kem (được tính dựa trên việc sum so_luong ở dich_vu_di_kem).
-select hd.ma_hop_dong, hd.ngay_lam_hop_dong, hd.ngay_ket_thuc, hd.tien_dat_coc, ifnull(sum(hdct.so_luong),0)
+select hd.ma_hop_dong, hd.ngay_lam_hop_dong, hd.ngay_ket_thuc, hd.tien_dat_coc, ifnull(sum(hdct.so_luong),0) as so_luong, group_concat(dvdk.ten_dich_vu_di_kem) as ten_dich_vu_di_kem
 from hop_dong hd left join hop_dong_chi_tiet hdct on hd.ma_hop_dong = hdct.ma_hop_dong
+				 left join dich_vu_di_kem dvdk on hdct.ma_dich_vu_di_kem = dvdk.ma_dich_vu_di_kem
 group by hd.ma_hop_dong;
 
 -- 11.Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách hàng 
@@ -422,7 +423,7 @@ from nhan_vien nv join hop_dong hd on nv.ma_nhan_vien = hd.ma_nhan_vien
 				  join bo_phan bp on nv.ma_bo_phan = bp.ma_bo_phan
                   join trinh_do td on nv.ma_trinh_do = td.ma_trinh_do
 where( year(hd.ngay_lam_hop_dong) between 2020 and 2021)
-group by  nv.ma_nhan_vien, hd.ma_hop_dong
+group by  nv.ma_nhan_vien
 having count(hd.ma_hop_dong) <=3;
                   
 
@@ -443,18 +444,17 @@ delete from nhan_vien where ma_nhan_vien in (select ma_nhan_vien from (  select 
 -- chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
 update khach_hang
 set ma_loai_khach = 1 where ma_khach_hang in
-(select ma_khach_hang from (select  kh.ma_khach_hang
-							from khach_hang kh left join hop_dong hd on kh.ma_khach_hang = hd.ma_khach_hang
+(select * from v_mkh_17);
+
+create view v_mkh_17 as select  kh.ma_khach_hang from khach_hang kh left join hop_dong hd on kh.ma_khach_hang = hd.ma_khach_hang
 											   left join dich_vu dv on hd.ma_dich_vu= dv.ma_dich_vu
                                                left join hop_dong_chi_tiet hdct on hd.ma_hop_dong = hdct.ma_hop_dong
                                                left join dich_vu_di_kem dvdk on hdct.ma_dich_vu_di_kem = dvdk.ma_dich_vu_di_kem
 							where (year(hd.ngay_ket_thuc) in (2021)) and kh.ma_loai_khach =2
 							group by   kh.ma_khach_hang, dv.chi_phi_thue
-							having (max(dv.chi_phi_thue) + sum(ifnull(hdct.so_luong*dvdk.gia,0)))>10000000) as temp);
-                  
+							having (max(dv.chi_phi_thue) + sum(ifnull(hdct.so_luong*dvdk.gia,0)))>10000000;
 
-
-
+select * from khach_hang where ma_khach_hang =10;
 -- 18. Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng).
 SET SQL_SAFE_UPDATES = 1;
 SET SQL_SAFE_UPDATES = 0;

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="web_dang_ky_style.css">
+</head>
+<body>
+<!--navbar-->
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning shadow"
+         style="height: 100px;">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:63342/Module3/tu_hoc_html_css/project_ca_nhan/web_ban_nuoc.html?_ijt=7b200jt97dq7oitru62vb6ota6"
+                       style="padding-left: 40px;">TRANG CHỦ</a>
+                </li>
+                <!-- Dropdown ĐỒ UỐNG -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false" style="padding-left: 40px;">
+                        ĐỒ UỐNG
+                    </a>
+                    <ul class="dropdown-menu scrollable-dropdown">
+                        <li><a class="dropdown-item" href="#">Cà phê</a></li>
+                        <li><a class="dropdown-item" href="#">Trà sữa</a></li>
+                        <li><a class="dropdown-item" href="#">Nước ép</a></li>
+                        <li><a class="dropdown-item" href="#">Sinh tố</a></li>
+                        <li><a class="dropdown-item" href="#">Soda</a></li>
+                        <li><a class="dropdown-item" href="#">Trà trái cây</a></li>
+                        <li><a class="dropdown-item" href="#">Cocktail</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="padding-left: 40px;">LIÊN HỆ</a>
+                </li>
+            </ul>
+        </div>
+        <a class="navbar-brand" href="#"
+           style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 100%;">
+            <img src="istockphoto-1993352281-612x612-removebg-preview.png" alt="Logo"
+                 style="height: 100%; width: auto; object-fit: contain;">
+        </a>
+
+        <div class="d-flex align-items-center" style="gap: 10px;">
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search"
+                       style="border-radius: 0"/>
+                <button class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center"
+                        type="submit" style="width: 40px; height: 40px;">
+                    <i class="bi bi-search" style="font-size: 1.25rem;"></i>
+                </button>
+            </form>
+            <a class="nav-link d-flex align-items-center justify-content-center user-icon"
+               style="width: 40px; height: 40px;"
+               href="#"
+               data-bs-toggle="offcanvas" data-bs-target="#cartSidebar"
+            >
+                <i class="bi bi-cart" style="font-size: 1.25rem;"></i>
+            </a>
+
+            <a class="nav-link d-flex align-items-center justify-content-center user-icon"
+               style="width: 40px; height: 40px;"
+               href="#"
+               data-bs-toggle="modal" data-bs-target="#loginModal"
+            >
+                <i class="bi bi-person" style="font-size: 1.25rem;"></i>
+            </a>
+        </div>
+
+    </nav>
+</div>
+<!--form register-->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="register-box">
+        <h2 class="mb-4 text-center"><b>ĐĂNG KÝ</b></h2>
+        <form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Nhập họ tên">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Tên tài khoản</label>
+                        <input type="text" class="form-control" id="username" placeholder="Nhập tên tài khoản">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Nhập email">
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn px-5">Đăng ký</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--footer-->
+<footer class="bg-dark text-white text-center text-lg-start mt-5">
+    <div class="container p-4">
+        <div class="row">
+            <!-- Giới thiệu -->
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Về chúng tôi</h5>
+                <p>
+                    Chúng tôi cung cấp các loại đồ uống chất lượng cao, phục vụ tận tâm và chuyên nghiệp. Cảm ơn bạn đã
+                    ghé thăm!
+                </p>
+            </div>
+
+            <!-- Liên kết nhanh -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Liên kết</h5>
+                <ul class="list-unstyled mb-0">
+                    <li><a href="#" class="text-white text-decoration-none">Trang chủ</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Đồ uống</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <!-- Thông tin liên hệ -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Liên hệ</h5>
+                <p>Email: contact@drinkstore.com</p>
+                <p>Điện thoại: 0123 456 789</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bản quyền -->
+    <div class="text-center p-3" style="background-color: rgba(255, 255, 255, 0.1);">
+        © 2025 DrinkStore. Mọi quyền được bảo lưu.
+    </div>
+</footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</html>
