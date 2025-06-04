@@ -56,9 +56,14 @@ public class ProductController extends HttpServlet {
     }
 
     private void updateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Product> products = productService.findAll();
-        req.setAttribute("products", products);
-        req.getRequestDispatcher("view/listProduct.jsp").forward(req, resp);
+        int id = Integer.parseInt(req.getParameter("id"));
+        String productName = req.getParameter("nameProduct");
+        double price = Double.parseDouble(req.getParameter("price"));
+        String description = req.getParameter("description");
+        String manufacturer = req.getParameter("manufacturer");
+        Product product = new Product(id,productName,price,description,manufacturer);
+        productService.update(product);
+        resp.sendRedirect("product?mess=updated");
     }
 
     private void deleteProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException {

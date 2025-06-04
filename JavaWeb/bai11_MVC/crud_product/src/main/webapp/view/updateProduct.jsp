@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-<form method="post" action="/product?action=update">
+<form method="post">
   <label>ID:</label>
   <input name="id" required value=${product.id}>
   <label>Tên sản phẩm:</label>

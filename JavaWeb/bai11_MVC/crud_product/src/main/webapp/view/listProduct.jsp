@@ -31,7 +31,9 @@
             <td>${product.description}</td>
             <td>${product.manufacturer}</td>
             <td>
-                <button></button>
+                <a href="/product?action=update?id=${product.id}" class="btn btn-primary btn-sm">
+                    Update
+                </a>
             </td>
             <td>
                 <button onclick="deleteInfo('${product.id}','${product.nameProduct}')" type="button"

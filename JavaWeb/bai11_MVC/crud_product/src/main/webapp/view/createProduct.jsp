@@ -6,7 +6,7 @@
 <body>
 <form method="post">
     <label>ID:</label>
-    <input name="id" required value=${product.id}>
+    <input type="hidden" name="id" value="${product.id}">
     <label>Tên sản phẩm:</label>
     <input name="nameProduct" required value=${product.nameProduct}>
     <label>Giá:</label>
