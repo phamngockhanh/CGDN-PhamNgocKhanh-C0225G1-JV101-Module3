@@ -56,7 +56,15 @@ public class ProductRepository implements IProductRepository{
     }
 
     @Override
-    public void findById(int id) {
-
+    public Product getProductById(int id) {
+        Product product = new Product();
+        for (Product value : products) {
+            if (value.getId() == id) {
+                product = value;
+            }
+        }
+        return product;
     }
+
+
 }

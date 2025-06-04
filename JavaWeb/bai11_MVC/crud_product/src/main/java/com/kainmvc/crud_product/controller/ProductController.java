@@ -18,6 +18,8 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
         String action = req.getParameter("action");
         if (action == null) {
             action = "";
@@ -27,7 +29,15 @@ public class ProductController extends HttpServlet {
                 req.getRequestDispatcher("view/createProduct.jsp").forward(req,resp);
                 break;
             case "update":
-                req.getRequestDispatcher("view/updateProduct.jsp").forward(req,resp);
+                String id = req.getParameter("id");
+                Product product = productService.getProductById(Integer.parseInt(id));
+                req.setAttribute("product", product);
+                req.getRequestDispatcher("view/updateProduct.jsp").forward(req, resp);
+                break;
+            case "delete":
+                break;
+            case "filter":
+                listProductFilter(req, resp);
                 break;
             default:
                 listProduct(req, resp);
@@ -38,6 +48,8 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
         String action = req.getParameter("action");
 
         if (action == null) {
@@ -47,8 +59,10 @@ public class ProductController extends HttpServlet {
         switch (action) {
             case "create":
                 addProduct(req, resp);
+                break;
             case "update":
                 updateProduct(req,resp);
+                break;
             case "delete":
                 deleteProduct(req,resp);
                 break;
@@ -63,7 +77,7 @@ public class ProductController extends HttpServlet {
         String manufacturer = req.getParameter("manufacturer");
         Product product = new Product(id,productName,price,description,manufacturer);
         productService.update(product);
-        resp.sendRedirect("product?mess=updated");
+        resp.sendRedirect("/product?mess=updated");
     }
 
     private void deleteProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -74,6 +88,12 @@ public class ProductController extends HttpServlet {
 
     private void listProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Product> products = productService.findAll();
+        req.setAttribute("products", products);
+        req.getRequestDispatcher("view/listProduct.jsp").forward(req, resp);
+    }
+
+    private void listProductFilter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Product> products = productService.findByName(req.getParameter("keyword"));
         req.setAttribute("products", products);
         req.getRequestDispatcher("view/listProduct.jsp").forward(req, resp);
     }

@@ -12,6 +12,12 @@
 </head>
 <body>
 <button><a href="product?action=create" style="color: black;text-decoration: none">Thêm mới</a></button>
+<form action="product" method="get">
+    <input type="text" name="keyword" placeholder="Enter name you want to search">
+    <input type="hidden" name="action" value="filter">
+    <button type="submit">Search</button>
+</form>
+
 <span style="color:red">${param.mess}</span>
 <table>
     <tr>
@@ -23,7 +29,7 @@
         <th>Chỉnh sửa</th>
         <th>Xóa</th>
     </tr>
-    <c:forEach var = "product" varStatus="idx"  items = "${products}">
+    <c:forEach var="product" varStatus="idx" items="${products}">
         <tr>
             <td>${idx.count}</td>
             <td>${product.nameProduct}</td>
@@ -31,7 +37,7 @@
             <td>${product.description}</td>
             <td>${product.manufacturer}</td>
             <td>
-                <a href="/product?action=update?id=${product.id}" class="btn btn-primary btn-sm">
+                <a href="product?action=update&id=${product.id}" class="btn btn-primary btn-sm">
                     Update
                 </a>
             </td>
@@ -61,16 +67,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-                    <button  class="btn btn-primary">Xoá</button>
+                    <button class="btn btn-primary">Xoá</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
 <script>
     function deleteInfo(id, name) {
-        document.getElementById("deleteId").value= id;
-        document.getElementById("deleteName").innerText= name;
+        document.getElementById("deleteId").value = id;
+        document.getElementById("deleteName").innerText = name;
     }
 </script>
 </body>
