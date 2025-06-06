@@ -19,30 +19,37 @@
 </form>
 
 <span style="color:red">${param.mess}</span>
-<table>
+<table border="1px">
     <tr>
         <th>STT</th>
         <th>Tên Sản Phẩm</th>
+        <th>Năm sản xuất</th>
         <th>Giá</th>
-        <th>Chi tiết</th>
+        <th>Số lượng</th>
         <th>Nhà sản xuất</th>
+        <th>Trạng thái</th>
+        <th>Loại hàng</th>
         <th>Chỉnh sửa</th>
         <th>Xóa</th>
     </tr>
+
     <c:forEach var="product" varStatus="idx" items="${products}">
         <tr>
             <td>${idx.count}</td>
-            <td>${product.nameProduct}</td>
+            <td>${product.computerName}</td>
+            <td>${product.releaseYear}</td>
             <td>${product.price}</td>
-            <td>${product.description}</td>
+            <td>${product.quantity}</td>
             <td>${product.manufacturer}</td>
+            <td>${product.status}</td>
+            <td>${product.categoryId}</td>
             <td>
                 <a href="product?action=update&id=${product.id}" class="btn btn-primary btn-sm">
                     Update
                 </a>
             </td>
             <td>
-                <button onclick="deleteInfo('${product.id}','${product.nameProduct}')" type="button"
+                <button onclick="deleteInfo('${product.id}','${product.computerName}')" type="button"
                         class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Delete
                 </button>
@@ -50,6 +57,30 @@
         </tr>
     </c:forEach>
 </table>
+<div>
+    <!-- Previous button -->
+    <c:if test="${currentPage > 1}">
+        <form action="product" method="get" style="display:inline;">
+            <input type="hidden" name="pageNumber" value="${currentPage - 1}" />
+            <input type="hidden" name="pageSize" value="5" />
+            <button type="submit">Previous</button>
+        </form>
+    </c:if>
+
+    <!-- Current page button -->
+    <button disabled style="font-weight:bold;color:red;">
+        ${currentPage}
+    </button>
+
+    <!-- Next button -->
+    <c:if test="${currentPage < totalPages}">
+        <form action="product" method="get" style="display:inline;">
+            <input type="hidden" name="pageNumber" value="${currentPage + 1}" />
+            <input type="hidden" name="pageSize" value="5" />
+            <button type="submit">Next</button>
+        </form>
+    </c:if>
+</div>
 
 
 <!-- Modal -->

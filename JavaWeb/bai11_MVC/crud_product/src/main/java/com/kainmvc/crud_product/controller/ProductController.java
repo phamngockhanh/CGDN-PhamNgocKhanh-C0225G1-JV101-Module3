@@ -1,7 +1,9 @@
 package com.kainmvc.crud_product.controller;
 
 
+import com.kainmvc.crud_product.entity.Category;
 import com.kainmvc.crud_product.entity.Product;
+import com.kainmvc.crud_product.sevice.CategoryService;
 import com.kainmvc.crud_product.sevice.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import java.util.List;
 @WebServlet(name = "ProductController", urlPatterns = "/product")
 public class ProductController extends HttpServlet {
     private static ProductService productService = new ProductService();
+    private static CategoryService categoryService = new CategoryService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,13 +29,10 @@ public class ProductController extends HttpServlet {
         }
         switch (action) {
             case "create":
-                req.getRequestDispatcher("view/createProduct.jsp").forward(req,resp);
+                listCategory(req,resp);
                 break;
             case "update":
-                String id = req.getParameter("id");
-                Product product = productService.getProductById(Integer.parseInt(id));
-                req.setAttribute("product", product);
-                req.getRequestDispatcher("view/updateProduct.jsp").forward(req, resp);
+                updateDirect(req,resp);
                 break;
             case "delete":
                 break;
@@ -40,10 +40,44 @@ public class ProductController extends HttpServlet {
                 listProductFilter(req, resp);
                 break;
             default:
-                listProduct(req, resp);
+                pagination(req,resp);
                 break;
         }
 
+    }
+
+    private void pagination(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int pageNumber = 1;
+        int pageSize = 5;
+
+        String pageParam= req.getParameter("pageNumber");
+
+        if (pageParam != null) {
+            pageNumber = Integer.parseInt(pageParam);
+            try()
+
+        }
+
+        int offset = (pageNumber - 1) * pageSize;
+        List<Product> products = productService.findAllWithPagination(offset,pageSize);
+        int totalProducts = productService.countProduct();
+        int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+        req.setAttribute("products", products);
+        req.setAttribute("currentPage", pageNumber);
+        req.setAttribute("pageSize", pageSize);
+        req.setAttribute("totalPages", totalPages);
+        req.getRequestDispatcher("view/listProduct.jsp").forward(req, resp);
+
+
+    }
+
+    private void updateDirect(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        Product product = productService.getProductById(Integer.parseInt(id));
+        req.setAttribute("product", product);
+        List<Category> categories = categoryService.findAll();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("view/updateProduct.jsp").forward(req, resp);
     }
 
     @Override
@@ -71,13 +105,20 @@ public class ProductController extends HttpServlet {
 
     private void updateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        String productName = req.getParameter("nameProduct");
+        String productName = req.getParameter("computerName");
+        int releaseYear = Integer.parseInt(req.getParameter("releaseYear"));
         double price = Double.parseDouble(req.getParameter("price"));
-        String description = req.getParameter("description");
+        int quantity = Integer.parseInt(req.getParameter("quantity"));
         String manufacturer = req.getParameter("manufacturer");
-        Product product = new Product(id,productName,price,description,manufacturer);
-        productService.update(product);
-        resp.sendRedirect("/product?mess=updated");
+        boolean status = Boolean.parseBoolean(req.getParameter("status"));
+        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        Product product = new Product(id,productName,releaseYear,price,quantity,manufacturer,status,categoryId);
+        boolean isUpdated =  productService.update(product);
+        String mess = "update success";
+        if(!isUpdated){
+            mess="update fail";
+        }
+        resp.sendRedirect("/product?mess=" + mess);
     }
 
     private void deleteProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -92,6 +133,12 @@ public class ProductController extends HttpServlet {
         req.getRequestDispatcher("view/listProduct.jsp").forward(req, resp);
     }
 
+    private void listCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Category> categories = categoryService.findAll();
+        req.setAttribute("categories", categories);
+        req.getRequestDispatcher("view/createProduct.jsp").forward(req, resp);
+    }
+
     private void listProductFilter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Product> products = productService.findByName(req.getParameter("keyword"));
         req.setAttribute("products", products);
@@ -99,16 +146,21 @@ public class ProductController extends HttpServlet {
     }
 
     private void addProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        String productName = req.getParameter("nameProduct");
+        String productName = req.getParameter("computerName");
+        int releaseYear = Integer.parseInt(req.getParameter("releaseYear"));
         double price = Double.parseDouble(req.getParameter("price"));
-        String description = req.getParameter("description");
+        int quantity = Integer.parseInt(req.getParameter("quantity"));
         String manufacturer = req.getParameter("manufacturer");
-        Product product = new Product(id,productName,price,description,manufacturer);
-        productService.add(product);
-        resp.sendRedirect("product?mess=added");
+        boolean status = Boolean.parseBoolean(req.getParameter("status"));
+        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        Product product = new Product(productName,releaseYear,price,quantity,manufacturer,status,categoryId);
+        boolean isAdded =  productService.add(product);
+        String mess = "create success";
+        if(!isAdded){
+            mess="create fail";
+        }
+        resp.sendRedirect("product?mess="+mess);
+
     }
-
-
 
 }

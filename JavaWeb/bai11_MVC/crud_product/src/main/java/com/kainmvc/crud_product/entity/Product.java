@@ -2,21 +2,38 @@ package com.kainmvc.crud_product.entity;
 
 public class Product {
     private int id;
-    private String nameProduct;
+    private String computerName;
+    private int releaseYear;
     private double price;
-    private String description;
+    private int quantity;
     private String manufacturer;
+    private boolean status;
+    private int categoryId ;
 
     public Product() {
     }
 
-    public Product(int id, String nameProduct, double price, String description, String manufacturer) {
+    public Product(int id, String computerName, int releaseYear, double price, int quantity, String manufacturer, boolean status, int categoryId) {
         this.id = id;
-        this.nameProduct = nameProduct;
+        this.computerName = computerName;
+        this.releaseYear = releaseYear;
         this.price = price;
-        this.description = description;
+        this.quantity = quantity;
         this.manufacturer = manufacturer;
+        this.status = status;
+        this.categoryId = categoryId;
     }
+
+    public Product( String computerName, int releaseYear, double price, int quantity, String manufacturer, boolean status, int categoryId) {
+        this.computerName = computerName;
+        this.releaseYear = releaseYear;
+        this.price = price;
+        this.quantity = quantity;
+        this.manufacturer = manufacturer;
+        this.status = status;
+        this.categoryId = categoryId;
+    }
+
 
     public int getId() {
         return id;
@@ -26,12 +43,20 @@ public class Product {
         this.id = id;
     }
 
-    public String getNameProduct() {
-        return nameProduct;
+    public String getComputerName() {
+        return computerName;
     }
 
-    public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
+    public void setComputerName(String computerName) {
+        this.computerName = computerName;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public double getPrice() {
@@ -42,12 +67,12 @@ public class Product {
         this.price = price;
     }
 
-    public String getDescription() {
-        return description;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getManufacturer() {
@@ -58,5 +83,19 @@ public class Product {
         this.manufacturer = manufacturer;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
 
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 }

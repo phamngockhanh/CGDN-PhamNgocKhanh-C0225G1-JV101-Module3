@@ -14,18 +14,18 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public void add(Product product) {
-        iProductRepository.add(product);
+    public boolean add(Product product) {
+       return iProductRepository.add(product);
     }
 
     @Override
-    public void update(Product product) {
-        iProductRepository.update(product);
+    public boolean update(Product product) {
+       return iProductRepository.update(product);
     }
 
     @Override
-    public void delete(int id) {
-        iProductRepository.delete(id);
+    public boolean delete(int id) {
+       return iProductRepository.delete(id);
     }
 
     @Override
@@ -36,5 +36,15 @@ public class ProductService implements IProductService{
     @Override
     public Product getProductById(int id) {
         return iProductRepository.getProductById(id);
+    }
+
+    @Override
+    public List<Product> findAllWithPagination(int offSet, int pageSize) {
+        return iProductRepository.findAllWithPagination(offSet,pageSize);
+    }
+
+    @Override
+    public int countProduct() {
+       return  iProductRepository.countProduct();
     }
 }
