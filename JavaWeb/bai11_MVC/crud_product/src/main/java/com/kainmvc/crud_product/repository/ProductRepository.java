@@ -18,6 +18,8 @@ public class ProductRepository implements IProductRepository{
     private static final String UPDATE_PRODUCT = "update computers set computer_name = ?, release_year=?,price = ?, quantity = ?, manufacturer = ?, status = ?, id_category=? where id = ?;";
     private static final String SELECT_PRODUCT_BY_ID = "select * from computers where id = ?;";
     private static final String COUNT_PRODUCT = "select count(*) from computers;";
+    private static final String SEARCH= "SELECT * FROM computers WHERE (computer_name LIKE CONCAT('%', ?, '%') OR ? = '') AND (id_category = ? OR ? = 0) LIMIT ?,?;";
+    private static final String COUNT_PRODUCT_WITH_FILTER= "SELECT COUNT(*) FROM computers WHERE (computer_name LIKE CONCAT('%', ?, '%') OR ? = '') AND (id_category = ? OR ? = 0)";
     @Override
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();
@@ -161,6 +163,52 @@ public class ProductRepository implements IProductRepository{
     }
 
 
+    @Override
+    public int countProductWithFilter(String computerNameSeach, int idSearch)  {
+        int totalRecords = 0;
+        try(Connection connection= ConnectionDBUtil.getConnectDB();
+            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_PRODUCT_WITH_FILTER)){
+            preparedStatement.setString(1, computerNameSeach);
+            preparedStatement.setString(2, computerNameSeach);
+            preparedStatement.setInt(3, idSearch);
+            preparedStatement.setInt(4, idSearch);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                totalRecords = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalRecords;
+    }
+    public List<Product> search(String computerNameSeach, int idSearch,int offset,int pageSize){
+        List<Product> products = new ArrayList<>();
+        try(Connection connection = ConnectionDBUtil.getConnectDB();
+            PreparedStatement preparedStatement = connection.prepareStatement(SEARCH)){
+            preparedStatement.setString(1, computerNameSeach);
+            preparedStatement.setString(2, computerNameSeach);
+            preparedStatement.setInt(3, idSearch);
+            preparedStatement.setInt(4, idSearch);
+            preparedStatement.setInt(5, offset);
+            preparedStatement.setInt(6, pageSize);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                int id  = resultSet.getInt("id");
+                String computerName  = resultSet.getString("computer_name");
+                int releaseYear  = resultSet.getInt("release_year");
+                double price  = resultSet.getDouble("price");
+                int quantity  = resultSet.getInt("quantity");
+                String manufacturer  = resultSet.getString("manufacturer");
+                boolean status  = resultSet.getBoolean("status");
+                int categoryId  = resultSet.getInt("id_category");
+                Product product = new Product(id,computerName,releaseYear,price,quantity,manufacturer,status,categoryId);
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
 
 
 

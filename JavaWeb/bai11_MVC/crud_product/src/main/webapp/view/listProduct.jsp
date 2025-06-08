@@ -11,12 +11,23 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<button><a href="product?action=create" style="color: black;text-decoration: none">Thêm mới</a></button>
-<form action="product" method="get">
-    <input type="text" name="keyword" placeholder="Enter name you want to search">
-    <input type="hidden" name="action" value="filter">
-    <button type="submit">Search</button>
-</form>
+<div style="display: flex;justify-content: start;">
+    <button style="border: 1px solid black">
+        <a href="product?action=create" style="color: black;text-decoration: none;">Thêm mới</a>
+    </button>
+    <form action="product" method="get">
+        <input type="text" name="keyword" placeholder="Enter name you want to search" value="${keyword}">
+        <select name="categoryId" id="">
+            <option value="0">Chọn loại</option>
+            <c:forEach var="category" items="${categories}">
+                <option value="${category.id}"
+                        <c:if test="${category.id==selectedCategoryId}">selected</c:if>>${category.categoryName}</option>
+            </c:forEach>
+        </select>
+        <input type="hidden" name="action" value="filter">
+        <button type="submit">Search</button>
+    </form>
+</div>
 
 <span style="color:red">${param.mess}</span>
 <table border="1px">
@@ -59,27 +70,25 @@
 </table>
 <div>
     <!-- Previous button -->
-    <c:if test="${currentPage > 1}">
-        <form action="product" method="get" style="display:inline;">
-            <input type="hidden" name="pageNumber" value="${currentPage - 1}" />
-            <input type="hidden" name="pageSize" value="5" />
-            <button type="submit">Previous</button>
-        </form>
-    </c:if>
+    <form action="product" method="get" style="display:inline;">
+        <input type="hidden" name="pageNumber" value="${currentPage - 1}"/>
+        <input type="hidden" name="categoryId" value="${selectedCategoryId}"/>
+        <input type="hidden" name="keyword" value="${keyword}"/>
+        <button type="submit" ${currentPage == 1 ? 'disabled' : ''}>Previous</button>
+    </form>
 
     <!-- Current page button -->
     <button disabled style="font-weight:bold;color:red;">
-        ${currentPage}
+        ${currentPage} / ${totalPages}
     </button>
 
     <!-- Next button -->
-    <c:if test="${currentPage < totalPages}">
-        <form action="product" method="get" style="display:inline;">
-            <input type="hidden" name="pageNumber" value="${currentPage + 1}" />
-            <input type="hidden" name="pageSize" value="5" />
-            <button type="submit">Next</button>
-        </form>
-    </c:if>
+    <form action="product" method="get" style="display:inline;">
+        <input type="hidden" name="pageNumber" value="${currentPage + 1}"/>
+        <input type="hidden" name="categoryId" value="${selectedCategoryId}"/>
+        <input type="hidden" name="keyword" value="${keyword}"/>
+        <button type="submit" ${currentPage == totalPages ? 'disabled' : ''}>Next</button>
+    </form>
 </div>
 
 
@@ -104,7 +113,12 @@
         </form>
     </div>
 </div>
-
+<c:if test="${not empty sessionScope.successMessage}">
+    <script>
+        alert("${sessionScope.successMessage}");
+    </script>
+    <c:remove var="successMessage" scope="session"/>
+</c:if>
 <script>
     function deleteInfo(id, name) {
         document.getElementById("deleteId").value = id;

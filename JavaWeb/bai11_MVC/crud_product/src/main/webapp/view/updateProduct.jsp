@@ -18,7 +18,13 @@
     <label>Nhà sản xuất:</label>
     <input name="manufacturer" required value="${product.manufacturer}">
     <label>Trạng thái:</label>
-    <input name="status" required value="${product.status}">
+    <div class="form-group">
+        <label>Trạng thái:</label>
+        <select name="status" required>
+            <option value="true" <c:if test="${product.status == true}">selected</c:if>>True</option>
+            <option value="false" <c:if test="${product.status == false}">selected</c:if>>False</option>
+        </select>
+    </div>
     <label>Loại máy tính:</label>
     <select name="categoryId">
         <option value="0">Chọn loại</option>

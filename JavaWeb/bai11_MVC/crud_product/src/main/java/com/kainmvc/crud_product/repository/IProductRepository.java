@@ -13,4 +13,6 @@ public interface IProductRepository {
     List<Product> findByName(String name);
     Product getProductById(int id);
     int countProduct();
+    List<Product> search(String productName, int id, int offSet, int pageSize);
+    int countProductWithFilter(String computerNameSeach, int idSearch);
 }
